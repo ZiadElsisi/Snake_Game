@@ -1,0 +1,31 @@
+class Game {
+public:
+    Game();
+    void reset();
+    void update();         // one game tick
+    GameState getState() const;
+    const Body& getSnakeBody() const;
+    Cell getFoodPos() const;
+    bool specialFoodActive() const;
+    Cell getSpecialFoodPos() const;
+    float getSpecialFoodTime() const;
+    int getScore() const;
+    int getLevel() const;
+    const std::vector<Cell>& getObstacles() const;
+    void setHighScore(int hs);
+    int getHighScore() const;
+    void setDirection(Direction d);  // called by InputHandler
+    void setState(GameState s);
+private:
+    Snake snake_;
+    Food food_;
+    SpecialFood specialFood_;
+    LevelManager level_;
+    Direction currentDir_, pendingDir_;
+    std::deque<Direction> dirBuffer_; // max size 2
+    GameState state_;
+    int score_, highScore_;
+    int ticksSinceSpecial_;
+    std::vector<Cell> obstacles_;
+    bool validateDirection(Direction next, Direction current);
+};
