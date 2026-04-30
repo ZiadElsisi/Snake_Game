@@ -12,8 +12,8 @@ void Snake::reset()
 
     body_.clear();
 
-    int start_x = GRID_WIDTH / 2;
-    int start_y = GRID_HEIGHT / 2;
+    int start_x = Constants::GRID_WIDTH / 2 + 1;
+    int start_y = Constants::GRID_HEIGHT / 2;
 
     body_.push_back({start_x, start_y});
 

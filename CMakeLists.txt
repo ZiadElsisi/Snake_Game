@@ -9,12 +9,15 @@ find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 
 add_executable(Snake_Game
         main.cpp
-        game.cpp game.h
-        Snake.h
-        Food.h
-        SpecialFood.h
+        Game.cpp Game.h
+        Snake.cpp Snake.h
+        Food.cpp Food.h
+        SpecialFood.cpp SpecialFood.h
+        Levelmanager.cpp
         LevelManager.h
         InputHandler.cpp InputHandler.h
+        Menu.cpp Menu.h
+        ScoreManager.cpp ScoreManager.h
         Shared.h
         Renderer.cpp
         Renderer.h

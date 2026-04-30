@@ -14,7 +14,8 @@ Menu::Menu(float windowWidth, float windowHeight, int highScore)
       windowHeight(windowHeight)
 {
     //  1. Load Font
-    if (!font.loadFromFile("arial.ttf")) {
+
+    if (!font.loadFromFile("assets/PressStart2P-Regular.ttf")) {
         // If loading fails, print a warning. The game won't crash but text won't show.
         std::cerr << "[Menu] ERROR: Could not load font 'arial.ttf'!\n";
         std::cerr << "       Place arial.ttf next to your executable.\n";
@@ -89,6 +90,12 @@ void Menu::setHighScore(int score) {
     highScoreText.setPosition(x, windowHeight * 0.80f); // near bottom
 }
 
+void Menu::setTitle(const std::string& title) {
+    titleText.setString(title);
+    float titleX = (windowWidth - titleText.getGlobalBounds().width) / 2.f;
+    titleText.setPosition(titleX, windowHeight * 0.12f);
+}
+
 // handleInput
 // Call this once per event in your event loop.
 // Returns -1 until the user presses ENTER, then returns 0, 1, or 2.
@@ -116,7 +123,7 @@ int Menu::handleInput(sf::Event& event) {
 }
 
 // draw
-void Menu::draw(sf::RenderWindow& window) {
+void Menu::draw(sf::RenderWindow& window) const {
     window.draw(titleText);
     for (int i = 0; i < MENU_COUNT; i++) {
         window.draw(items[i]);

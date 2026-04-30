@@ -10,10 +10,11 @@ public:
     explicit InputHandler(Game& game);
 
     // Call every frame — handles window events and key presses
-    void processEvents(sf::RenderWindow& window);
+    void processEvent(const sf::Event& event);
 
     // Call every frame — fires game.update() on tick interval
     void tick();
+
 
 private:
     Game& game_;

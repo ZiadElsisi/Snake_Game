@@ -11,7 +11,7 @@ public:
     Menu(float windowWidth, float windowHeight, int highScore);
 
     // Draw all menu items to the window
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window) const;
 
     // Handle keyboard input. Returns:
     //   -1   nothing selected yet (keep showing menu)
@@ -22,6 +22,7 @@ public:
 
     // Update high score text (call this if the score changes)
     void setHighScore(int score);
+    void setTitle(const std::string& title);
 
 private:
     sf::Font   font;                    // The loaded font

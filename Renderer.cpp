@@ -60,88 +60,55 @@ void Renderer::drawSidePanel(int score, int level, int highScore)
 }
 
 
-void Renderer::drawGame(const Body& snakeBody, const Cell& food,
-                       bool specialActive, const Cell& specialFood, float specialTimeLeft,
-                       int score, int level, int highScore,
-                       const std::vector<Cell>& obstacles)
+void Renderer::drawGame(const Game& game, int highScore)
 {
-    window_.clear(sf::Color(20, 20, 20));
-
-    // Background (grid area)
-    sf::RectangleShape bg;
-    bg.setSize(sf::Vector2f(
-        Constants::GRID_WIDTH * Constants::CELL_SIZE,
-        Constants::GRID_HEIGHT * Constants::CELL_SIZE
-    ));
-    bg.setFillColor(sf::Color(30,30,30));
-    window_.draw(bg);
 
     drawGrid();
 
-    // Obstacles
-    for (const auto& o : obstacles)
-        drawCell(o, sf::Color(100,100,100));
-
     // Snake
     bool isHead = true;
-    for (const auto& segment : snakeBody) {
-        if (isHead) {
-            drawCell(segment, sf::Color(0, 255, 0)); // bright
-            isHead = false;
-        } else {
-            drawCell(segment, sf::Color(0, 150, 0));
-        }
+    for (const auto& s : game.getSnakeBody()) {
+        drawCell(s, isHead ? sf::Color::Green : sf::Color(0,150,0));
+        isHead = false;
     }
 
     // Food
-    sf::CircleShape foodShape(Constants::CELL_SIZE / 2 - 4);
-    foodShape.setFillColor(sf::Color::Red);
-    foodShape.setPosition(
-        food.first * Constants::CELL_SIZE + 4,
-        food.second * Constants::CELL_SIZE + 4
-    );
-    window_.draw(foodShape);
+    drawCell(game.getFoodPos(), sf::Color::Red);
 
-    // Special food (blink when < 2s)
-    if (specialActive) {
-        bool blink = (specialTimeLeft < 2.0f) &&
-                     (static_cast<int>(specialTimeLeft * 10) % 2 == 0);
-
-        if (!blink || specialTimeLeft >= 2.0f) {
-            sf::CircleShape special(Constants::CELL_SIZE / 2 - 4);
-            special.setFillColor(sf::Color(255, 215, 0)); // gold
-            special.setPosition(
-                specialFood.first * Constants::CELL_SIZE + 4,
-                specialFood.second * Constants::CELL_SIZE + 4
-            );
-            window_.draw(special);
-        }
+    // Special food
+    if (game.specialFoodActive()) {
+        drawCell(game.getSpecialFoodPos(), sf::Color::Yellow);
     }
 
-    drawSidePanel(score, level, highScore);
+    // Obstacles
+    for (const auto& o : game.getObstacles()) {
+        drawCell(o, sf::Color(120,120,120));
+    }
 
-    window_.display();
+    drawSidePanel(game.getScore(),
+                  game.getLevel(),
+                  highScore);
 }
-void drawOverlay(sf::RenderWindow& window, sf::Color color)
+
+void Renderer::drawOverlay(sf::Color color)
 {
     sf::RectangleShape overlay;
-    overlay.setSize(sf::Vector2f(window.getSize()));
+    overlay.setSize(sf::Vector2f(window_.getSize()));
     overlay.setFillColor(color);
-    window.draw(overlay);
+    window_.draw(overlay);
 }
-void Renderer::drawPause()
-{
-    drawOverlay(window_, sf::Color(0,0,0,150));
+
+void Renderer::drawPauseOverlay(){
+    drawOverlay(sf::Color(0,0,0,150));
 
     sf::Text text("PAUSED", font_, 30);
     text.setPosition(200, 200);
     window_.draw(text);
 
-    window_.display();
 }
 void Renderer::drawGameOver(int finalScore, int highScore, bool isNewRecord)
 {
-    drawOverlay(window_, sf::Color(0,0,0,180));
+    drawOverlay(sf::Color(0,0,0,150));
 
     sf::Text text("GAME OVER", font_, 30);
     text.setPosition(150, 150);
@@ -158,5 +125,7 @@ void Renderer::drawGameOver(int finalScore, int highScore, bool isNewRecord)
         window_.draw(rec);
     }
 
-    window_.display();
+}
+void Renderer::drawMenu(const Menu& menu) {
+    menu.draw(window_);
 }

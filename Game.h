@@ -17,6 +17,7 @@ public:
     float getSpecialFoodTime() const;
     int getScore() const;
     int getLevel() const;
+    float getTickInterval() const;
     const std::vector<Cell>& getObstacles() const;
     void setHighScore(int hs);
     int getHighScore() const;

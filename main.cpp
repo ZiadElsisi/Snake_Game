@@ -8,6 +8,7 @@
 #include "Renderer.h"
 #include "InputHandler.h"
 
+
 int main()
 {
     // 1.  Create the SFML window
@@ -28,68 +29,69 @@ int main()
     LevelManager  levelManager;
     Game          game;
     Renderer      renderer(window);
-    InputHandler  inputHandler;
-    Menu          menu;
+    int highScore = scoreManager.load();
+    InputHandler  inputHandler(game);
+    Menu          menu(WINDOW_W, WINDOW_H, highScore);
 
-    // Load the persisted high score at startup
-    scoreManager.loadHighScore();
 
-    // Starting game state
-    GameState state = GameState::MENU;
+    menu.setHighScore(highScore);
+    game.setHighScore(highScore);
 
     // 3.  Fixed-timestep (tick) variables
 
     sf::Clock clock;
-    float     accumulator = 0.f;   // seconds accumulated since last tick
+    float moveTimer = 0.f;
+    bool scoreSaved = false;
 
     // 4.  Main game loop
 
     while (window.isOpen())
     {
-        // 4a. Delta time
-        float deltaTime = clock.restart().asSeconds();
-        // Clamp to avoid spiral-of-death on lag spikes
-        if (deltaTime > 0.2f) deltaTime = 0.2f;
 
-        //  4b. Event polling
+        // ✅ Delta time once per frame, OUTSIDE the event loop
+        float deltaTime = clock.restart().asSeconds();
+        moveTimer += deltaTime;
         sf::Event event;
         while (window.pollEvent(event))
+
         {
             if (event.type == sf::Event::Closed)
-            {
                 window.close();
+
+            if (game.getState() == GameState::MENU || game.getState() == GameState::GAME_OVER)
+            {
+                int result = menu.handleInput(event);
+
+                if (result == 0) // START
+                {
+                    game.reset();
+                    levelManager.reset();
+                    game.setState(GameState::PLAYING);
+                    moveTimer = 0.f;
+                    scoreSaved = false;
+                }
+                else if (result == 2) // EXIT
+                {
+                    window.close();
+                }
             }
-
-            // Pass every event to the input handler so it can
-            // record key presses for this frame
-            inputHandler.handleEvent(event);
+            else
+            {
+                // FIX 2: pass the live event to inputHandler INSIDE the loop
+                inputHandler.processEvent(event);
+            }
         }
-
         //  4c. State machine
-        switch (state)
+        switch (game.getState())
         {
 
         case GameState::MENU:
         {
-            // Let the menu react to Up / Down / Enter
-            menu.handleInput(inputHandler);
-
-            if (menu.isStartSelected())
-            {
-                // Reset everything for a fresh run
-                game.reset();
-                levelManager.reset();
-                accumulator = 0.f;
-                state = GameState::PLAYING;
-            }
-            else if (menu.isExitSelected())
-            {
-                window.close();
-            }
+            menu.setTitle("SNAKE");
 
             // Render menu
             window.clear(sf::Color::Black);
-            renderer.drawMenu(menu, scoreManager.getHighScore());
+            renderer.drawMenu(menu);
             window.display();
             break;
         }
@@ -99,45 +101,21 @@ int main()
 
         {
             //  Pause toggle
-            if (inputHandler.isPausePressed())
-            {
-                state = GameState::PAUSED;
-                break;
-            }
-
-            // Pass directional input to game
-            Direction dir = inputHandler.getDirection();
-            game.setDirection(dir);
 
             // Fixed-timestep update (tick system)
             // Speed (ticks/sec) may increase as the level grows
-            float tickInterval = 1.f / levelManager.getSpeed();
-            accumulator += deltaTime;
 
-            while (accumulator >= tickInterval)
+            if (moveTimer >= game.getTickInterval())
             {
-                game.update();          // advance snake, check food, etc.
-                accumulator -= tickInterval;
-
-                // Update level based on current score
-                levelManager.update(game.getScore());
-
-                // Did the snake die this tick?
-                if (game.isGameOver())
-                {
-                    // Persist high score then switch state
-                    scoreManager.updateHighScore(game.getScore());
-                    scoreManager.saveHighScore();
-                    state = GameState::GAME_OVER;
-                    break;              // exit the tick loop
-                }
+                game.update();
+                moveTimer = 0.f;
             }
 
-            if (state != GameState::PLAYING) break; // state changed inside loop
+            if (game.getState() != GameState::PLAYING) break; // state changed inside loop
 
             //  Render
             window.clear(sf::Color::Black);
-            renderer.drawGame(game, levelManager, scoreManager.getHighScore());
+            renderer.drawGame(game, game.getHighScore());
             window.display();
             break;
         }
@@ -145,36 +123,31 @@ int main()
 
         {
             // Resume on pause key press
-            if (inputHandler.isPausePressed())
-            {
-                // Reset clock so the pause duration isn't added
-                // to the accumulator on resume
-                clock.restart();
-                accumulator = 0.f;
-                state = GameState::PLAYING;
-            }
 
             // Render the paused view (game board dimmed + overlay)
             window.clear(sf::Color::Black);
-            renderer.drawGame(game, levelManager, scoreManager.getHighScore());
+            renderer.drawGame(game, game.getHighScore());
             renderer.drawPauseOverlay();
             window.display();
             break;
         }
 
-        case GameState::GAME_OVER:
-
+            case GameState::GAME_OVER:
         {
-            // Any key (e.g. Enter / Space) returns to menu
-            if (inputHandler.isConfirmPressed())
-            {
-                menu.reset();
-                state = GameState::MENU;
+            // Save score
+            if (!scoreSaved) {
+                scoreManager.save(game.getScore());
+                scoreSaved = true;
             }
 
-            // Render game-over screen
+            // Update high score everywhere
+            int updatedHigh = scoreManager.load();
+            menu.setHighScore(updatedHigh);
+            game.setHighScore(updatedHigh);
+            menu.setTitle("GAME OVER");
+
             window.clear(sf::Color::Black);
-            renderer.drawGameOver(game.getScore(), scoreManager.getHighScore());
+            renderer.drawMenu(menu);
             window.display();
             break;
         }
@@ -182,7 +155,6 @@ int main()
         } // end switch
 
         // 4d. Clear per-frame input state
-        inputHandler.reset();
 
     } // end while(window.isOpen())
 

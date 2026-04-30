@@ -5,6 +5,7 @@ class Food {
 public:    
     Food(); 
     void respawn(const Body& snakeBody, int gridW, int gridH);
+    void respawn(const std::vector<Cell>& blockedCells, int gridW, int gridH);
     Cell getPosition() const;
     bool isActive() const;
  

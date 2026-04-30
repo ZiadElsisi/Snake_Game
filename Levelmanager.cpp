@@ -1,8 +1,8 @@
 #include "LevelManager.h"
 
-const float LevelManager::BASE_INTERVAL = 1.0f / 10.0f; // 0.10 s  to 10 moves/sec
-const float LevelManager::SPEED_FACTOR  = 0.88f;         // 12% faster each level
-const float LevelManager::MIN_INTERVAL  = 0.05f;         // 0.05 s  to 20 moves/sec (cap)
+const float LevelManager::BASE_INTERVAL = 0.12f; // about 8 moves/sec
+const float LevelManager::SPEED_FACTOR  = 0.92f; // 8% faster each level
+const float LevelManager::MIN_INTERVAL  = 0.06f; // cap at about 16 moves/sec
 
 //  Constructor Sets the game to its initial state: level 1, base speed.
 LevelManager::LevelManager()

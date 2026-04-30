@@ -3,7 +3,7 @@
 
 // Static constants
 const int SpecialFood::POINTS = 2;
-const float SpecialFood::LIFETIME = 5.0f;
+const float SpecialFood::LIFETIME = 3.0f;
 
 // Static random engine - seeded once
 static std::mt19937 g_rng_special(std::random_device{}());

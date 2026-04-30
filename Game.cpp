@@ -20,13 +20,13 @@ void Game::reset()
     specialFood_ = SpecialFood();
     level_       = LevelManager();
     obstacles_.clear();
-    obstacles_         = level_.getObstacles();
+    // obstacles_         = level_.getObstacles();
     currentDir_        = Direction::RIGHT;
     pendingDir_        = Direction::RIGHT;
     dirBuffer_.clear();
     score_             = 0;
     ticksSinceSpecial_ = 0;
-    state_             = GameState::PLAYING;
+    state_             = GameState::MENU;
     food_.respawn(snake_.getBody(), Constants::GRID_WIDTH, Constants::GRID_HEIGHT);
 }
 
@@ -36,9 +36,10 @@ const Body&              Game::getSnakeBody()        const { return snake_.getBo
 Cell                     Game::getFoodPos()          const { return food_.getPosition(); }
 bool                     Game::specialFoodActive()   const { return specialFood_.isActive(); }
 Cell                     Game::getSpecialFoodPos()   const { return specialFood_.getPosition(); }
-float                    Game::getSpecialFoodTime()  const { return specialFood_.getTimeLeft(); }
+float                    Game::getSpecialFoodTime()  const { return 0.f; } //return specialFood_.getTimeLeft();
 int                      Game::getScore()            const { return score_; }
 int                      Game::getLevel()            const { return level_.getLevel(); }
+float                    Game::getTickInterval()     const { return level_.getTickInterval(); }
 const std::vector<Cell>& Game::getObstacles()        const { return obstacles_; }
 int                      Game::getHighScore()        const { return highScore_; }
 void                     Game::setHighScore(int hs)        { highScore_ = hs; }
@@ -63,8 +64,7 @@ bool Game::validateDirection(Direction next, Direction current)
 }
 
 // ── Update (one game tick) ────────────────────────────────────────────────────
-void Game::update()
-{
+void Game::update() {
     if (state_ != GameState::PLAYING) return;
 
     // 1. Pop next direction from buffer
@@ -114,26 +114,30 @@ void Game::update()
         specialFood_.deactivate();
     }
     // 7. Normal food
-    else if (head == food_.getPosition()) {
+else if (head == food_.getPosition()) {
         score_ += 1;
         snake_.grow(currentDir_);
-        food_.respawn(snake_.getBody(), Constants::GRID_WIDTH, Constants::GRID_HEIGHT);
-        bool levelChanged = level_.update(score_);
-        if (levelChanged)
-            obstacles_ = level_.getObstacles();
+
+        std::vector<Cell> blockedCells(snake_.getBody().begin(), snake_.getBody().end());
+        if (specialFood_.isActive()) {
+            blockedCells.push_back(specialFood_.getPosition());
+        }
+        blockedCells.insert(blockedCells.end(), obstacles_.begin(), obstacles_.end());
+        food_.respawn(blockedCells, Constants::GRID_WIDTH, Constants::GRID_HEIGHT);
+
+        level_.update(score_);
     }
-    // 8. Normal move
     else {
         snake_.move(currentDir_);
     }
 
-    // 9. Tick special food timer
-    specialFood_.tick();
+    specialFood_.tick(level_.getTickInterval());
 
-    // 10. Spawn special food every 10 ticks
-    ++ticksSinceSpecial_;
-    if (!specialFood_.isActive() && ticksSinceSpecial_ >= 10) {
-        specialFood_.spawn(snake_.getBody(), Constants::GRID_WIDTH, Constants::GRID_HEIGHT);
-        ticksSinceSpecial_ = 0;
+    if (!specialFood_.isActive()) {
+        ++ticksSinceSpecial_;
+        if (ticksSinceSpecial_ >= 50) {
+            specialFood_.spawn(snake_.getBody(), Constants::GRID_WIDTH, Constants::GRID_HEIGHT);
+            ticksSinceSpecial_ = 0;
+        }
     }
 }
