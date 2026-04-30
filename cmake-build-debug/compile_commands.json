@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /cmake-build-debug",
+  "command": "/usr/bin/c++ -isystem /opt/homebrew/opt/sfml@2/include -g -std=gnu++17 -arch arm64 -fcolor-diagnostics -o CMakeFiles/Snake_Game.dir/main.cpp.o -c \"/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /main.cpp\"",
+  "file": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /main.cpp",
+  "output": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /cmake-build-debug/CMakeFiles/Snake_Game.dir/main.cpp.o"
+},
+{
+  "directory": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /cmake-build-debug",
+  "command": "/usr/bin/c++ -isystem /opt/homebrew/opt/sfml@2/include -g -std=gnu++17 -arch arm64 -fcolor-diagnostics -o CMakeFiles/Snake_Game.dir/game.cpp.o -c \"/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /game.cpp\"",
+  "file": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /game.cpp",
+  "output": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /cmake-build-debug/CMakeFiles/Snake_Game.dir/game.cpp.o"
+},
+{
+  "directory": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /cmake-build-debug",
+  "command": "/usr/bin/c++ -isystem /opt/homebrew/opt/sfml@2/include -g -std=gnu++17 -arch arm64 -fcolor-diagnostics -o CMakeFiles/Snake_Game.dir/InputHandler.cpp.o -c \"/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /InputHandler.cpp\"",
+  "file": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /InputHandler.cpp",
+  "output": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /cmake-build-debug/CMakeFiles/Snake_Game.dir/InputHandler.cpp.o"
+},
+{
+  "directory": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /cmake-build-debug",
+  "command": "/usr/bin/c++ -isystem /opt/homebrew/opt/sfml@2/include -g -std=gnu++17 -arch arm64 -fcolor-diagnostics -o CMakeFiles/Snake_Game.dir/Renderer.cpp.o -c \"/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /Renderer.cpp\"",
+  "file": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /Renderer.cpp",
+  "output": "/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /cmake-build-debug/CMakeFiles/Snake_Game.dir/Renderer.cpp.o"
+}
+]
