@@ -21,28 +21,18 @@ void Snake::reset()
     body_.push_back({start_x - 2, start_y});
 }
 
-void Snake::computeNextHead(Direction d, Cell &out) const
-{
-
+void Snake::computeNextHead(Direction d, Cell &out) const {
     Cell currentHead = body_.front();
     out = currentHead;
 
-    switch (d)
-    {
-    case Direction::UP:
-        out.y--;
-        break;
-    case Direction::DOWN:
-        out.y++;
-        break;
-    case Direction::LEFT:
-        out.x--;
-        break;
-    case Direction::RIGHT:
-        out.x++;
-        break;
+    switch (d) {
+        case Direction::UP:    out.second -= 1; break;
+        case Direction::DOWN:  out.second += 1; break;
+        case Direction::LEFT:  out.first  -= 1; break;
+        case Direction::RIGHT: out.first  += 1; break;
     }
 }
+
 
 void Snake::grow(Direction d)
 {
@@ -53,7 +43,13 @@ void Snake::grow(Direction d)
 
     body_.push_front(nextHead);
 }
+void Snake::move(Direction d) {
+    Cell nextHead;
+    computeNextHead(d, nextHead);
 
+    body_.push_front(nextHead);
+    body_.pop_back();
+}
 Cell Snake::getHead() const
 {
     return body_.front();
@@ -64,19 +60,11 @@ const Body &Snake::getBody() const
     return body_;
 }
 
-bool Snake::containsCell(const Cell &c) const
-{
-
-    for (const auto &segment : body_)
-    {
-
-        if (segment.x == c.x && segment.y == c.y)
-        {
-
+bool Snake::containsCell(const Cell &c) const {
+    for (const auto &segment : body_) {
+        if (segment.first == c.first && segment.second == c.second)
             return true;
-        }
     }
-
     return false;
 }
 

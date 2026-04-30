@@ -27,7 +27,7 @@ void Game::reset()
     score_             = 0;
     ticksSinceSpecial_ = 0;
     state_             = GameState::PLAYING;
-    food_.respawn(snake_.getBody(), obstacles_);
+    food_.respawn(snake_.getBody(), Constants::GRID_WIDTH, Constants::GRID_HEIGHT);
 }
 
 // ── Accessors ─────────────────────────────────────────────────────────────────
@@ -110,21 +110,21 @@ void Game::update()
     // 6. Special food
     if (specialFood_.isActive() && head == specialFood_.getPosition()) {
         score_ += 2;
-        snake_.grow(head);
+        snake_.grow(currentDir_);
         specialFood_.deactivate();
     }
     // 7. Normal food
     else if (head == food_.getPosition()) {
         score_ += 1;
-        snake_.grow(head);
-        food_.respawn(snake_.getBody(), obstacles_);
+        snake_.grow(currentDir_);
+        food_.respawn(snake_.getBody(), Constants::GRID_WIDTH, Constants::GRID_HEIGHT);
         bool levelChanged = level_.update(score_);
         if (levelChanged)
             obstacles_ = level_.getObstacles();
     }
     // 8. Normal move
     else {
-        snake_.move(head);
+        snake_.move(currentDir_);
     }
 
     // 9. Tick special food timer
@@ -133,7 +133,7 @@ void Game::update()
     // 10. Spawn special food every 10 ticks
     ++ticksSinceSpecial_;
     if (!specialFood_.isActive() && ticksSinceSpecial_ >= 10) {
-        specialFood_.spawn(snake_.getBody(), obstacles_);
+        specialFood_.spawn(snake_.getBody(), Constants::GRID_WIDTH, Constants::GRID_HEIGHT);
         ticksSinceSpecial_ = 0;
     }
 }
