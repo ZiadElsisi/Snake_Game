@@ -1,6 +1,9 @@
 #pragma once
 #include "Shared.h"
-
+#include "Snake.h"
+#include "Food.h"
+#include "SpecialFood.h"
+#include "LevelManager.h"
 class Game {
 public:
     Game();
