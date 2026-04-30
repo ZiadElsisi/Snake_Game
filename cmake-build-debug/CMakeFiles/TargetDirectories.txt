@@ -1,0 +1,3 @@
+/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /cmake-build-debug/CMakeFiles/Snake_Game.dir
+/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/ziadelsisi/Hello World/Studying/DSA/Snake Game /cmake-build-debug/CMakeFiles/rebuild_cache.dir
