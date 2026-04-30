@@ -12,4 +12,6 @@ add_executable(Snake_Game
         LevelManager.h
         InputHandler.cpp InputHandler.h
         Shared.h
+         Food.cpp
+        SpecialFood.cpp
 )
