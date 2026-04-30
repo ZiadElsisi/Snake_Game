@@ -1,0 +1,5 @@
+# ninja log v6
+445	546	1777238384185177345	Snake_Game_	7905bc6709a8344b
+1	576	1777566950519134444	CMakeFiles/Snake_Game.dir/main.cpp.o	59ac7a832f5f0d9c
+3	578	1777566950520514482	CMakeFiles/Snake_Game.dir/InputHandler.cpp.o	b8e72ac36e4651fe
+3	592	1777566950520669190	CMakeFiles/Snake_Game.dir/Renderer.cpp.o	7ceebdd274b7ab84

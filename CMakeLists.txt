@@ -16,6 +16,8 @@ add_executable(Snake_Game
         LevelManager.h
         InputHandler.cpp InputHandler.h
         Shared.h
+        Renderer.cpp
+        Renderer.h
 )
 
 target_link_libraries(Snake_Game sfml-graphics sfml-window sfml-system)

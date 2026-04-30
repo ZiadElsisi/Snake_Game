@@ -1,10 +1,15 @@
 #include <iostream>
+#include "Shared.h"
+#include <SFML/Graphics.hpp>
 using namespace std;
-// TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
+
 int main() {
-
-        cout << "Hello World "<<endl;
-
-
-    return 0;// TIP See CLion help at <a href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>. Also, you can try interactive lessons for CLion by selecting 'Help | Learn IDE Features' from the main menu.
+    sf::RenderWindow window(
+      sf::VideoMode(
+          Constants::GRID_WIDTH * Constants::CELL_SIZE + Constants::PANEL_WIDTH,
+          Constants::GRID_HEIGHT * Constants::CELL_SIZE
+      ),
+      "Snake Game"
+  );
 }
