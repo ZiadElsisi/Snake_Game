@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "game.h"
 // ── Constructor ───────────────────────────────────────────────────────────────
 Game::Game()
     : currentDir_(Direction::RIGHT)
