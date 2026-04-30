@@ -1,4 +1,5 @@
 #include "Game.h"
+
 // ── Constructor ───────────────────────────────────────────────────────────────
 Game::Game()
     : currentDir_(Direction::RIGHT)
