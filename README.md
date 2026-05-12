@@ -7,17 +7,17 @@ Faculty of Engineering - Specialized Programs - Spring 2026
 
 ## Group Members
 
-| Name | ID |
-| --- | --- |
-| Ziad Elsisi | TODO |
-| TODO | TODO |
-| TODO | TODO |
-| TODO | TODO |
-| TODO | TODO |
+| Name                   | ID      |
+|------------------------|---------|
+| Ziad Elsisi            | 2300401 |
+| Jasmine Mo'men         | 2300032 |
+| Abdelrahman Abdelatty  | 2300404 |
+| Passant Mohammed Salah | 2300274 |
+| Malah Ahmed Ramy       | 2300608 |
 
 ## Project Description
 
-This project is a playable Snake Game implemented in C++ using SFML. The player controls a snake on a grid, collects food to increase the score, grows the snake body, and avoids collisions with the wall, obstacles, and itself.
+This project is a playable Snake Game implemented in C++ using SFML. The player controls a snake on a grid, collects food to increase the score, grows the snake body, and avoids collisions with the wall and itself.
 
 The game includes a menu, pause state, game-over screen, score tracking, high-score saving, levels, normal food, and special food with a limited lifetime.
 
@@ -42,11 +42,11 @@ Each grid location is represented as a pair of integers:
 - `first` = x-coordinate
 - `second` = y-coordinate
 
-This is used for the snake, food, special food, and obstacles.
+This is used for the snake, food, and special food.
 
 ### `vector<Cell>`
 
-Vectors are used to store obstacle positions and blocked cells when spawning food. This helps prevent food from appearing on the snake body, active special food, or obstacles.
+Vectors are used to store blocked cells when spawning food. This helps prevent food from appearing on the snake body or active special food.
 
 ## Core Features
 
@@ -56,7 +56,7 @@ Vectors are used to store obstacle positions and blocked cells when spawning foo
 - Score and high-score system.
 - High score saved in `data/highscore.txt`.
 - Special food that appears temporarily and gives extra points.
-- Collision detection with walls, obstacles, and the snake body.
+- Collision detection with walls and the snake body.
 - Pause and resume support.
 - Game-over screen with restart option.
 - Level system with increasing speed.
@@ -111,7 +111,6 @@ Time complexity:
 The game checks:
 
 - boundary collision,
-- obstacle collision,
 - self-collision.
 
 Self-collision is checked by scanning the snake body.
@@ -127,8 +126,7 @@ Food is randomly generated on the grid, then checked against blocked cells. If t
 Blocked cells include:
 
 - snake body,
-- active special food,
-- obstacles.
+- active special food.
 
 ## Requirements
 
@@ -194,4 +192,3 @@ The group understands and implemented the main project logic, including:
 - and controlling rendering and input flow.
 
 AI was used as a support tool, but the final project decisions, testing, and submitted implementation were reviewed by the group.
-

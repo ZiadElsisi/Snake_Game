@@ -70,7 +70,7 @@ int main()
                     moveTimer = 0.f;
                     scoreSaved = false;
                 }
-                else if (result == 2) // EXIT
+                else if (result == 1) // EXIT
                 {
                     window.close();
                 }

@@ -18,7 +18,6 @@ public:
     int getScore() const;
     int getLevel() const;
     float getTickInterval() const;
-    const std::vector<Cell>& getObstacles() const;
     void setHighScore(int hs);
     int getHighScore() const;
     void setDirection(Direction d);
@@ -33,6 +32,5 @@ private:
     GameState    state_;
     int          score_, highScore_;
     int          ticksSinceSpecial_;
-    std::vector<Cell> obstacles_;
     bool validateDirection(Direction next, Direction current);
 };

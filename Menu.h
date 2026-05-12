@@ -3,7 +3,7 @@
 #include <string>
 
 // Number of menu options
-static const int MENU_COUNT = 3;
+static const int MENU_COUNT = 2;
 
 class Menu {
 public:
@@ -16,11 +16,11 @@ public:
 
 private:
     sf::Font   font;                    // The loaded font
-    sf::Text   items[MENU_COUNT];       // The 3 menu option texts
+    sf::Text   items[MENU_COUNT];
     sf::Text   highScoreText;           // High score display at bottom
     sf::Text   titleText;               // "SNAKE" title at top
 
-    int        selectedIndex;           // Which item is currently highlighted (0-2)
+    int        selectedIndex;
     float      windowWidth;
     float      windowHeight;
 

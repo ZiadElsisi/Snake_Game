@@ -19,8 +19,6 @@ void Game::reset()
     food_        = Food();
     specialFood_ = SpecialFood();
     level_       = LevelManager();
-    obstacles_.clear();
-    // obstacles_         = level_.getObstacles();
     currentDir_        = Direction::RIGHT;
     pendingDir_        = Direction::RIGHT;
     dirBuffer_.clear();
@@ -40,7 +38,6 @@ float                    Game::getSpecialFoodTime()  const { return 0.f; } //ret
 int                      Game::getScore()            const { return score_; }
 int                      Game::getLevel()            const { return level_.getLevel(); }
 float                    Game::getTickInterval()     const { return level_.getTickInterval(); }
-const std::vector<Cell>& Game::getObstacles()        const { return obstacles_; }
 int                      Game::getHighScore()        const { return highScore_; }
 void                     Game::setHighScore(int hs)        { highScore_ = hs; }
 void                     Game::setState(GameState s)       { state_ = s; }
@@ -89,16 +86,7 @@ void Game::update() {
         return;
     }
 
-    // 4. Obstacle collision
-    for (const Cell& obs : obstacles_) {
-        if (head == obs) {
-            state_ = GameState::GAME_OVER;
-            if (score_ > highScore_) highScore_ = score_;
-            return;
-        }
-    }
-
-    // 5. Self-collision (containsCell checks entire body incl. head,
+    // 4. Self-collision (containsCell checks entire body incl. head,
     //    but head hasn't moved yet so current head == old head position,
     //    which is safe — only a true overlap with body segments matters)
     if (snake_.containsCell(head)) {
@@ -107,14 +95,14 @@ void Game::update() {
         return;
     }
 
-    // 6. Special food
+    // 5. Special food
     if (specialFood_.isActive() && head == specialFood_.getPosition()) {
         score_ += 2;
         snake_.grow(currentDir_);
         specialFood_.deactivate();
     }
-    // 7. Normal food
-else if (head == food_.getPosition()) {
+    // 6. Normal food
+    else if (head == food_.getPosition()) {
         score_ += 1;
         snake_.grow(currentDir_);
 
@@ -122,7 +110,6 @@ else if (head == food_.getPosition()) {
         if (specialFood_.isActive()) {
             blockedCells.push_back(specialFood_.getPosition());
         }
-        blockedCells.insert(blockedCells.end(), obstacles_.begin(), obstacles_.end());
         food_.respawn(blockedCells, Constants::GRID_WIDTH, Constants::GRID_HEIGHT);
 
         level_.update(score_);

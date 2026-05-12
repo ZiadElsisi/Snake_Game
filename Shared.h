@@ -34,4 +34,3 @@ class Renderer;
 class InputHandler;
 class ScoreManager;
 class Menu;
-

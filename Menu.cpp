@@ -34,7 +34,6 @@ Menu::Menu(float windowWidth, float windowHeight, int highScore)
     //  3. Setup Menu Options
     const std::string labels[MENU_COUNT] = {
         "START GAME",
-        "HIGH SCORES",
         "EXIT"
     };
 
@@ -98,7 +97,7 @@ void Menu::setTitle(const std::string& title) {
 
 // handleInput
 // Call this once per event in your event loop.
-// Returns -1 until the user presses ENTER, then returns 0, 1, or 2.
+// Returns -1 until the user presses ENTER, then returns 0 or 1.
 int Menu::handleInput(sf::Event& event) {
     // Only care about key-press events
     if (event.type != sf::Event::KeyPressed)

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Shared.h"
-#include <vector>
 #include <cmath>
 
 class LevelManager {
@@ -12,8 +11,6 @@ public:
 
     int   getLevel()        const;  // Current level (1-based)
     float getTickInterval() const;  // Seconds between snake moves
-
-    void addObstacleWalls(std::vector<Cell>& obstacles, int level);
 
 private:
     int   level_;

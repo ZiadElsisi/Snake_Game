@@ -80,11 +80,6 @@ void Renderer::drawGame(const Game& game, int highScore)
         drawCell(game.getSpecialFoodPos(), sf::Color::Yellow);
     }
 
-    // Obstacles
-    for (const auto& o : game.getObstacles()) {
-        drawCell(o, sf::Color(120,120,120));
-    }
-
     drawSidePanel(game.getScore(),
                   game.getLevel(),
                   highScore);
