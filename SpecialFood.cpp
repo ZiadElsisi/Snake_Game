@@ -45,12 +45,14 @@ void SpecialFood::tick(float deltaSeconds) {
     if (!active_) {   // If the special food is not active, we don't need to do anything
         return;
     }
-
     timeLeft_ -= deltaSeconds;
     if (timeLeft_ <= 0.0f) {
         deactivate();
     }
 }
+
+
+
 
 Cell SpecialFood::getPosition() const {
     return position_;

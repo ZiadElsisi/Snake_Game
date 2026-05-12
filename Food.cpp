@@ -18,6 +18,7 @@ void Food::respawn(const std::vector<Cell>& blockedCells, int gridW, int gridH) 
     std::uniform_int_distribution<int> distY(0, gridH - 1);
     // We need to ensure the new position is not on the snake's body
     Cell newPosition;
+
     bool positionValid = false;  // Flag to check if the generated position is valid (not on snake body)
 
     // Keep generating random positions until we find one not in snakeBody

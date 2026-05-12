@@ -9,17 +9,14 @@ Snake::Snake()
 
 void Snake::reset()
 {
-
     body_.clear();
-
     int start_x = Constants::GRID_WIDTH / 2 + 1;
     int start_y = Constants::GRID_HEIGHT / 2;
-
     body_.push_back({start_x, start_y});
-
     body_.push_back({start_x - 1, start_y});
     body_.push_back({start_x - 2, start_y});
 }
+
 
 void Snake::computeNextHead(Direction d, Cell &out) const {
     Cell currentHead = body_.front();
@@ -36,20 +33,19 @@ void Snake::computeNextHead(Direction d, Cell &out) const {
 
 void Snake::grow(Direction d)
 {
-
     Cell nextHead;
-
     computeNextHead(d, nextHead);
-
     body_.push_front(nextHead);
 }
+
 void Snake::move(Direction d) {
     Cell nextHead;
     computeNextHead(d, nextHead);
-
     body_.push_front(nextHead);
     body_.pop_back();
 }
+
+
 Cell Snake::getHead() const
 {
     return body_.front();

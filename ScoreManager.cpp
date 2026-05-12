@@ -5,25 +5,18 @@
 // Returns 0 on any failure (missing file, bad data, etc.)
 
 int ScoreManager::load() {
-    // Open the file for reading.
-    // If "data/highscore.txt" doesn't exist, 'file' enters a failed state.
+
     std::ifstream file(filePath);
 
-    // Check if the file opened successfully.
     if (!file) {
-        return 0;  // File doesn't exist or can't be opened → no score yet
+        return 0;
     }
 
     int highScore = 0;
 
-    // Try to extract an integer from the file into highScore.
-    // If the file is empty or contains non-numeric text, this extraction fails and 'file' enters a failed state.
     if (!(file >> highScore)) {
-        return 0;  // Corrupt or unreadable data treat as no score
+        return 0;
     }
-
-    // ifstream closes automatically when it goes out of scope (RAII),
-    // but being explicit is fine too: file.close();
 
     return highScore;
 }
